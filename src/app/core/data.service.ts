@@ -17,9 +17,10 @@ export class DataService {
   observer: Observer<number>;
 
   getQuotes() : Observable<number> {
-    this.socket = socketIo('localhost:8080');
+    this.socket = socketIo('localhost:3000');
 
     this.socket.on('data', (res) => {
+      JSON.stringify("servicio " + res);
       this.observer.next(res.data);
     });
 
