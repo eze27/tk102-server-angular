@@ -1,5 +1,10 @@
-<h1>Using Angular with WebSockets</h1>
-<br />
-<h2>latitud : {{lat}}</h2>
-<h2>longitud : {{lon}}</h2>
-<br />
+<div  class="col-12">
+
+  <agm-map [latitude]="latitud" [longitude]="longitud" [zoom]='zoom' [streetViewControl]="true" [mapTypeControl]="true" [fullscreenControl]="true">
+      <div >
+          <agm-marker  [latitude]="lat" [longitude]="lon" [iconUrl]="{url: './assets/icon.png',scaledSize: {width: 40,height: 60}}">
+
+          </agm-marker>
+      </div>
+  </agm-map>
+</div>

@@ -1,6 +1,8 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-
+import { AgmCoreModule, } from '@agm/core';
+import { AgmDirectionModule } from 'agm-direction';
+import { AgmSnazzyInfoWindowModule } from '@agm/snazzy-info-window';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { CoreModule } from './core/core.module';
@@ -12,7 +14,13 @@ import { CoreModule } from './core/core.module';
   imports: [
     BrowserModule,
     AppRoutingModule,
-    CoreModule
+    CoreModule,
+    AgmCoreModule.forRoot({
+      apiKey: 'AIzaSyClU4VthG7iySIBzUxWpQpz_WNBTNHsv7A',
+      libraries: ['places']
+    }),
+    AgmDirectionModule,
+    AgmSnazzyInfoWindowModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

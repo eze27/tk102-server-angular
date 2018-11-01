@@ -17,6 +17,9 @@ export class AppComponent implements OnInit, OnDestroy {
   lat:any;
   lon:any;
   socket: Socket;
+  latitud = 20.577236100000004;
+  longitud = -100.3802213;
+  zoom = 15;
   constructor(private dataService: DataService) {
 
    }
@@ -29,7 +32,7 @@ export class AppComponent implements OnInit, OnDestroy {
           this.stockQuote = quote;
          // var location =  JSON.parse(JSON.stringify(quote));
         //  console.log(location.lat + " " + location.lon)
-         
+
         });*/
         this.socket = socketIo('localhost:3000');
 
@@ -38,10 +41,10 @@ export class AppComponent implements OnInit, OnDestroy {
           console.log(res);
           var location =  JSON.parse(JSON.stringify(res));
           console.log(location.lat + " " + location.lon)
-         
+
              this.lat= parseFloat(location.lat);
              this.lon= parseFloat(location.lon) ;
-            
+
         // this.observer.next(res.data);
         });
 
