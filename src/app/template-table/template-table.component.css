@@ -1,0 +1,64 @@
+.no-data-available {
+  text-align: center;
+}
+
+
+/*
+   src/styles.css (i.e. your global style)
+*/
+
+.dataTables_empty {
+  display: none;
+}
+
+
+element.style {
+  max-width: 0rem;
+}
+
+element.style {
+  top: 0px;
+  position: absolute;
+  left: 0px;
+  width: 311px;
+}
+
+.pad-10 {
+  padding: 0px;
+}
+
+.row {
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-wrap: wrap;
+  flex-wrap: wrap;
+  margin-right: -15px;
+  margin-left: 0px;
+}
+
+.span1 {
+  background-color: #5cb85c;
+  color: white;
+  display: block;
+  padding: .2em .6em .3em;
+  font-size: 75%;
+  font-weight: 700;
+  line-height: 1;
+  color: #fff;
+  text-align: center;
+  white-space: nowrap;
+  vertical-align: baseline;
+  border-radius: .25em;
+}
+
+.btn-primary {
+  color: #fff;
+  background-color: #007bff;
+  border-color: #007bff;
+  border-radius: 50%;
+}
+
+.btn-warning {
+  color: #fff;
+  border-radius: 50%;
+}

@@ -1,56 +1,76 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
-import { DataService } from './core/data.service';
-import { Subscription } from 'rxjs';
-import * as socketIo from 'socket.io-client';
-import { Socket } from './shared/interfaces';
-declare var io : {
-  connect(url: string): Socket;
-};
+import { Component, OnInit, OnDestroy, TemplateRef } from '@angular/core';
+import { GpsService } from './service/gps.service';
+import { pipe } from '@angular/core/src/render3/pipe';
+import { map } from 'rxjs/operators';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html'
 })
-export class AppComponent implements OnInit, OnDestroy {
-
-  stockQuote = {};
-  sub: Subscription;
-  lat:any;
-  lon:any;
-  socket: Socket;
-  latitud = 20.577236100000004;
-  longitud = -100.3802213;
-  zoom = 15;
-  constructor(private dataService: DataService) {
-
-   }
+export class AppComponent implements OnInit {
+  lat: any;
+  lon: any;
+  latitud: any;
+  longitud: any;
+  zoom: any;
+  datagps;
+  estado: boolean;
+  siguiendoA: any;
+  siguiendoNombre: any;
+  usuariosconectados = [];
+  constructor(private gps: GpsService) {}
 
   ngOnInit() {
-    /*this.sub = this.dataService.getQuotes()
-        .subscribe(quote => {
-          //this.stockQuote = quote;
-          console.log(quote);
-          this.stockQuote = quote;
-         // var location =  JSON.parse(JSON.stringify(quote));
-        //  console.log(location.lat + " " + location.lon)
+    this.latitud = 20.577236100000004;
+    this.longitud = -100.3802213;
+    this.zoom = 15;
+    this.estado = false;
+    this.gps.getLatLng().subscribe(data => {
 
-        });*/
-        this.socket = socketIo('localhost:3000');
 
-        this.socket.on('data', (res) => {
-        //  JSON.stringify("servicio " + res);
-          console.log(res);
-          var location =  JSON.parse(JSON.stringify(res));
-          console.log(location.lat + " " + location.lon)
 
-             this.lat= parseFloat(location.lat);
-             this.lon= parseFloat(location.lon) ;
+      if ( this.isEmpty(data)) {
+          console.log('viene vacio');
+      } else {
+        console.log('hay datos' + data);
+        this.estado = true;
+        this.datagps = data;
+      }
 
-        // this.observer.next(res.data);
-        });
-
+    });
   }
+  isEmpty(obj) {
+    for ( const key in obj) {
+        if ( obj.hasOwnProperty(key) ) {
+            return false;
+        }
+    }
+    return true;
+}
+  seguir(idnotificador) {
+    console.log('id ' + idnotificador );
+    // tslint:disable-next-line:forin
+    const data = Object.values(this.datagps);
+    // Step 2. Create an empty array.
+   console.log(JSON.stringify(data));
+   for (let index = 0; index < data.length; index++) {
+    console.log('index ' + index + ' ' + data[index]['idnotificador'] );
+    if (idnotificador  == data[index]['idnotificador'] ) {
+      this.estado = true;
+      this.siguiendoA = undefined;
+      this.siguiendoNombre = data[index]['idnotificador'];
+      this.latitud = parseFloat(data[index]['lat']);
+      this.longitud = parseFloat(data[index]['lon']);
 
-  ngOnDestroy() {
-    this.sub.unsubscribe();
+      this.zoom = 18;
+      if ( data[index]['lat'] === undefined && data[index]['lon'] === undefined ) {
+        this.latitud = 20.577236100000004;
+        this.longitud = -100.3802213;
+        this.zoom = 15;
+        this.estado = false;
+      } else {
+        this.zoom = 18;
+      }
+    }
+   }
   }
 }

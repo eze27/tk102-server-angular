@@ -1,10 +1,17 @@
-<div  class="col-12">
+<div class="row pad-10">
+  <div class="col-md-3">
+        <app-template-table (idSeleccionado)="seguir( $event )"></app-template-table>
+  </div>
+  <div class="col-md-9">
+    <agm-map  [latitude]="latitud" [longitude]="longitud" [zoom]='zoom' [streetViewControl]="true" [mapTypeControl]="true"
+      [fullscreenControl]="true" style="height:100vh">
+      <div *ngIf="estado != false">
+      <div>
+        <agm-marker *ngFor="let actuario of datagps | objectPositions" [latitude]="actuario['lat']" [longitude]="actuario['lon']" [iconUrl]="{url: './assets/icon.png',scaledSize: {width: 40,height: 60}}">
 
-  <agm-map [latitude]="latitud" [longitude]="longitud" [zoom]='zoom' [streetViewControl]="true" [mapTypeControl]="true" [fullscreenControl]="true">
-      <div >
-          <agm-marker  [latitude]="lat" [longitude]="lon" [iconUrl]="{url: './assets/icon.png',scaledSize: {width: 40,height: 60}}">
-
-          </agm-marker>
+        </agm-marker>
       </div>
-  </agm-map>
+    </div>
+    </agm-map>
+  </div>
 </div>

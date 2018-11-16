@@ -1,0 +1,161 @@
+<table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" class="row-border hover">
+  <thead>
+    <tr>
+      <th>Nombre</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let person of notificadores">
+
+      <td>{{ person.nombre }} {{person.sapellidos}}
+        <br>
+
+        <button class="btn btn-outline primary" (click)="seguir( person.idNotificador )">
+          <fa name="location-arrow" size="2.5x"></fa>Seguir
+        </button>
+        <button class="btn btn-outline primary" (click)="openModal(template)">
+          <fa name="info-circle" size="2.5x"></fa>Detalles
+        </button>
+        <button class="btn btn-outline primary" (click)="openModal(templatehistory,person.idNotificador)">
+          <fa name="info-circle" size="2.5x"></fa>Historial
+        </button>
+
+
+        <ng-template #template>
+          <div class="modal-header">
+            <div id="historial" class="close pull-center">Informacion de Expedientes</div>
+            <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div
+            class="modal-body">
+            <div class="col-md-12">
+              <table datatable class="table table-striped">
+                <thead>
+                  <tr>
+
+                    <th>Expediente</th>
+                    <th>Demandado</th>
+                    <th>Direccion</th>
+                    <th>Tipo de Expediente</th>
+                    <th>Estatus</th>
+
+                  </tr>
+                </thead>
+                <tbody>
+
+
+                  <tr *ngFor="let person2 of expedientes">
+
+                    <th scope="row" *ngIf='person.idNotificador == person2.idNotificador'>
+                      {{person2.expNum}}/{{person2.expAnn}}
+                    </th>
+                    <th scope="row" *ngIf='person.idNotificador == person2.idNotificador'>
+                      {{person2.sdestinatario}}
+                    </th>
+                    <th scope="row" *ngIf='person.idNotificador == person2.idNotificador'>
+                      {{person2.sdireccion}}
+                    </th>
+                    <th scope="row" *ngIf='person.idNotificador == person2.idNotificador'>
+                      {{person2.expTipo}}
+                    </th>
+                    <th scope="row" *ngIf='person.idNotificador == person2.idNotificador && person2.estatus == "1";'>
+                      Asignado
+                    </th>
+                    <th scope="row" *ngIf='person.idNotificador == person2.idNotificador && person2.estatus == "2"; '>
+                      Notificado
+                    </th>
+                    <th scope="row" *ngIf='person.idNotificador == person2.idNotificador && person2.estatus == "W"; '>
+                      Asignado urgente
+                    </th>
+                    <th scope="row" *ngIf='person.idNotificador == person2.idNotificador && person2.estatus == "3"; '>
+                      Citatorio
+                    </th>
+
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+
+          </div>
+        </ng-template>
+        <ng-template #templatehistory>
+          <div class="modal-header">
+            <div class="close pull-center">Historial</div>
+            <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+              <span aria-hidden="true">&times;</span>
+
+            </button>
+
+
+          </div>
+          <div class="modal-body">
+
+              <div class="row">
+                  <div class="col-xs-12 col-12 col-sm-6 col-md-4 form-group">
+                      <input type="text" class="form-control" placeholder="Datepicker" bsDatepicker [(ngModel)]="input1" [bsConfig]="{ dateInputFormat: 'YYYY-MM-DD' }" />
+                    </div>
+                    <div class="col-xs-12 col-12 col-sm-6 col-md-4 form-group">
+                        <input type="text" class="form-control" placeholder="Datepicker" bsDatepicker [(ngModel)]="input2"  [bsConfig]="{ dateInputFormat: 'YYYY-MM-DD' }"/>
+                      </div>
+                    <div class="col-xs-12 col-12 col-md-3 form-group">
+                      <button class="btn btn-success" (click)='calculafechas()'>Ruta</button>
+                    </div>
+                </div>
+
+            <!--<div *ngIf='person.idNotificador  === nombre.id'>-->
+            <div *ngIf='history[0] != undefined;else other_markes '>
+
+              <agm-map [latitude]='history[0].LAT' [longitude]='history[0].LON' [zoom]='15' [streetViewControl]="true"
+                [mapTypeControl]="true" [fullscreenControl]="true" style="height:50vh">
+                <ng-container>
+                  <agm-polyline *ngFor="let point of history;let i = index;" strokeOpacity="5" strokeWeight="5"
+                    [geodesic]="true" [strokeColor]="point.color" icon="">
+                    <agm-polyline-point [latitude]="point.LAT" [longitude]="point.LON">
+                    </agm-polyline-point>
+                    <ng-container *ngIf="history[i+1]">
+                      <agm-polyline-point [latitude]="history[i + 1].LAT" [longitude]="history[i + 1].LON">
+
+                      </agm-polyline-point>
+                    </ng-container>
+                  </agm-polyline>
+                </ng-container>
+              </agm-map>
+
+              <br>
+              <div class="row">
+                <div class="col-md-12">
+                  <table datatable class="row-border hover">
+                    <thead>
+                      <tr>
+                        <th>Fecha</th>
+                        <th>Hora</th>
+                        <th>Direccion</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="let point of history">
+
+                        <th scope="row">{{point.FECHA}}</th>
+                        <td>{{point.HORA}}</td>
+                        <td>{{point.DIRECCION}}</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+            <ng-template #other_markes>
+              <app-template-default></app-template-default>
+            </ng-template>
+            <!--  </div> -->
+
+
+          </div>
+        </ng-template>
+    </tr>
+  </tbody>
+
+</table>

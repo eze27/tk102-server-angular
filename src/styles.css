@@ -1,1 +1,7 @@
 /* You can add global styles to this file, and also import other style files */
+@media (min-width: 576px) {
+  .modal-dialog {
+      max-width: 1200px;
+      margin: 1.75rem auto;
+  }
+}

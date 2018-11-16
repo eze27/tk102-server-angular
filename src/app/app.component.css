@@ -1,4 +1,12 @@
+/*Altura completa*/
 agm-map {
-  height: 1100px;
-
+  height: 100vh;
+}
+.row {
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-wrap: wrap;
+  flex-wrap: wrap;
+  margin-right: -15px;
+  margin-left: 0px;
 }
